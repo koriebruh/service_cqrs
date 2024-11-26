@@ -1,14 +1,15 @@
-package config
+package pkg
 
 import (
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+	"koriebruh/cqrs/config"
 	"log/slog"
 )
 
-func MysqlClient(cnf *Config) *gorm.DB {
+func MysqlClient(cnf *config.Config) *gorm.DB {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		cnf.DataBase.User,
 		cnf.DataBase.Pass,

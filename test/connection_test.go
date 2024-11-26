@@ -4,13 +4,14 @@ import (
 	"fmt"
 	"github.com/stretchr/testify/assert"
 	"koriebruh/cqrs/config"
+	"koriebruh/cqrs/pkg"
 	"testing"
 )
 
 var cnf = config.GetConfig()
 
 func TestElasticClient(t *testing.T) {
-	client := config.ElasticClient(cnf)
+	client := pkg.ElasticClient(cnf)
 
 	info, err := client.Info()
 	assert.Nil(t, err)
@@ -21,7 +22,7 @@ func TestElasticClient(t *testing.T) {
 }
 
 func TestMysqlClient(t *testing.T) {
-	client := config.MysqlClient(cnf)
+	client := pkg.MysqlClient(cnf)
 
 	db, err := client.DB()
 	assert.Nil(t, err)
