@@ -4,11 +4,10 @@ Accept:     application/json
 Content-Type: application/json
 
 {
-  "name": "",
+  "name": "haha",
   "description": "Legendary Item",
   "price": 100,
-  "stock": 9,
-  "umur": "s"
+  "stock": 1
 }
 
 ###

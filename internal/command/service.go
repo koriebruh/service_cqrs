@@ -28,11 +28,9 @@ func NewProductService(productRepository *ProductRepository, DB *gorm.DB, valida
 
 func (service ProductServiceImpl) Create(ctx context.Context, create dto.ProductCreate) (dto.WebRes, error) {
 	if err := service.Validate.Struct(create); err != nil {
-		err = helper.ErrBadRequest
-		return helper.ErrorResponse(err), nil
+		return helper.ErrorResponseMsg(helper.ErrBadRequest, err), nil
 	}
 
-	//var product domain.Product
 	product := new(domain.Product)
 
 	err := service.DB.Transaction(func(tx *gorm.DB) error {
@@ -52,10 +50,10 @@ func (service ProductServiceImpl) Create(ctx context.Context, create dto.Product
 	})
 
 	if err != nil {
-		return helper.ErrorResponse(err), nil
+		return helper.ErrorResponseMsg(helper.ErrBadRequest, err), nil
 	}
 
-	return helper.SuccessRes(http.StatusCreated, "OK", nil), nil
+	return helper.SuccessRes(http.StatusCreated, "OK", "success created new product"), nil
 
 }
 

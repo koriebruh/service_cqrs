@@ -12,24 +12,24 @@ var (
 	ErrNotFound          = errors.New("NOT FOUND")
 )
 
-func ErrorResponse(err error) dto.WebRes {
+func ErrorResponseMsg(err error, msgErr error) dto.WebRes {
 	if errors.Is(err, ErrBadRequest) {
 		return dto.WebRes{
 			Code:   http.StatusBadRequest,
 			Status: "BAD REQUEST",
-			Data:   err.Error(),
+			Data:   msgErr.Error(),
 		}
 	} else if errors.Is(err, ErrNotFound) {
 		return dto.WebRes{
 			Code:   http.StatusNotFound,
 			Status: "NOT FOUND",
-			Data:   err.Error(),
+			Data:   msgErr.Error(),
 		}
 	} else {
 		return dto.WebRes{
 			Code:   http.StatusInternalServerError,
 			Status: "INTERNAL SERVER ERROR",
-			Data:   err.Error(),
+			Data:   msgErr.Error(),
 		}
 	}
 }
