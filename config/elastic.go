@@ -1,14 +1,13 @@
-package pkg
+package config
 
 import (
 	"github.com/elastic/go-elasticsearch/v8"
-	"koriebruh/cqrs/config"
 	"log"
 	"net/http"
 	"time"
 )
 
-func ElasticClient(cfg *config.Config) *elasticsearch.Client {
+func ElasticClient(cfg *Config) *elasticsearch.Client {
 	esConfig := elasticsearch.Config{
 		Addresses: []string{cfg.Elastic.Host},
 		Username:  cfg.Elastic.Username,

@@ -1,0 +1,14 @@
+### GET request to example server
+POST http://localhost:3000/api/products
+Accept:     application/json
+Content-Type: application/json
+
+{
+  "name": "",
+  "description": "Legendary Item",
+  "price": 100,
+  "stock": 9,
+  "umur": "s"
+}
+
+###
