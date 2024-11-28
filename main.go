@@ -22,6 +22,8 @@ func main() {
 
 	app.Get("/", hellobg)
 	app.Post("/api/products", productHandler.Create)
+	app.Put("/api/products/:id", productHandler.Update)
+	app.Delete("/api/products/:id", productHandler.Delete)
 
 	server := fmt.Sprintf("%s:%s", cnf.Server.Host, cnf.Server.Port)
 	if err := app.Listen(server); err != nil {

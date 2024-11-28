@@ -39,13 +39,19 @@ func (handler ProductHandlerImpl) Create(ctx *fiber.Ctx) error {
 }
 
 func (handler ProductHandlerImpl) Update(ctx *fiber.Ctx) error {
+	params := ctx.Params("id")
+	id, err := strconv.Atoi(params)
+	if err != nil {
+		panic(err)
+	}
+
 	var req dto.ProductUpdate
 	if err := ctx.BodyParser(&req); err != nil {
 		err = helper.ErrInternalServerErr
 		return ctx.Status(http.StatusBadRequest).JSON(err)
 	}
 
-	updated, err := handler.ProductService.Update(ctx.Context(), req)
+	updated, err := handler.ProductService.Update(ctx.Context(), id, req)
 	if err != nil {
 		err = helper.ErrInternalServerErr
 		return ctx.Status(http.StatusBadRequest).JSON(err)

@@ -11,3 +11,18 @@ Content-Type: application/json
 }
 
 ###
+PUT http://localhost:3000/api/products/3
+Accept:     application/json
+Content-Type: application/json
+
+{
+  "name": "Versace Error",
+  "description": "fregnace lah bang",
+  "price": 699,
+  "stock": 1
+}
+
+###
+DELETE http://localhost:3000/api/products/5
+Accept:     application/json
+Content-Type: application/json

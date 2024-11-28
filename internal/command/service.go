@@ -12,7 +12,7 @@ import (
 
 type ProductService interface {
 	Create(ctx context.Context, create dto.ProductCreate) (dto.WebRes, error)
-	Update(ctx context.Context, update dto.ProductUpdate) (dto.WebRes, error)
+	Update(ctx context.Context, id int, update dto.ProductUpdate) (dto.WebRes, error)
 	Delete(ctx context.Context, id int) (dto.WebRes, error)
 }
 
@@ -45,7 +45,6 @@ func (service ProductServiceImpl) Create(ctx context.Context, create dto.Product
 		if err != nil {
 			return err
 		}
-
 		return nil
 	})
 
@@ -57,12 +56,48 @@ func (service ProductServiceImpl) Create(ctx context.Context, create dto.Product
 
 }
 
-func (service ProductServiceImpl) Update(ctx context.Context, update dto.ProductUpdate) (dto.WebRes, error) {
-	//TODO implement me
-	panic("implement me")
+func (service ProductServiceImpl) Update(ctx context.Context, id int, update dto.ProductUpdate) (dto.WebRes, error) {
+	if err := service.Validate.Struct(update); err != nil {
+		return helper.ErrorResponseMsg(helper.ErrBadRequest, err), nil
+	}
+
+	product := new(domain.Product)
+
+	err := service.DB.Transaction(func(tx *gorm.DB) error {
+		product = &domain.Product{
+			Name:        update.Name,
+			Description: update.Description,
+			Price:       update.Price,
+			Stock:       update.Stock,
+		}
+
+		if err := service.ProductRepository.Update(ctx, tx, id, product); err != nil {
+			return err
+		}
+		return nil
+	})
+
+	if err != nil {
+		return helper.ErrorResponseMsg(helper.ErrBadRequest, err), nil
+	}
+
+	return helper.SuccessRes(http.StatusOK, "OK", "success update data"), nil
+
 }
 
 func (service ProductServiceImpl) Delete(ctx context.Context, id int) (dto.WebRes, error) {
-	//TODO implement me
-	panic("implement me")
+
+	err := service.DB.Transaction(func(tx *gorm.DB) error {
+		if err := service.ProductRepository.Delete(ctx, tx, id); err != nil {
+			return err
+		}
+
+		return nil
+	})
+
+	if err != nil {
+		return helper.ErrorResponseMsg(helper.ErrBadRequest, err), nil
+	}
+
+	return helper.SuccessRes(http.StatusOK, "OK", "success delete product "), nil
 }
